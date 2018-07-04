@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Liste des annonces - {{ parent() }}
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="{{ asset('css/ad/index.css?noCache='~random(9999)) }}" rel="stylesheet">
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+{% endblock %}
+
+{% block header %}
+    {% set nbResults = elements|length %}
+    <h3>
+        {% if nbResults %}
+            {{ nbResults }} annonces
+        {% else %}
+            Aucun résultat :(
+        {% endif %}
+    </h3>
+{% endblock %}
+
+{% block body %}
+    <div id="content">
+        {% for elem in elements %}
+
+            <div class="card">
+                <div class="card-header flex-container">
+                    <div>{{ elem.title }}</div>
+                    <div>{{ elem.price|number_format(0, ',', ' ') ~"€"}}</div>
+                    <div>{{ elem.dateCreated|date('d-m-Y') }}</div>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title"></h5>
+                    <p class="card-text">{{ elem.description }}</p>
+                </div>
+                <div class="card-footer">
+                    <a href="{{ path('ad_view', {'id':elem.id}) }}" class="btn btn-primary">voir</a>
+                </div>
+            </div>
+
+        {% endfor %}
+    </div>
+{% endblock %}

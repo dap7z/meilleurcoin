@@ -1,0 +1,21 @@
+.subtitle{
+    margin-bottom:40px;
+}
+
+.card{
+    margin-bottom:25px;
+}
+
+.card-header{
+    background-color:#C5E2C9;
+    justify-content: space-around;
+}
+
+.card-body{
+    background-color:#DAF4DD;
+}
+
+.card-footer{
+    background-color:#C5E2C9;
+    text-align:right;
+}

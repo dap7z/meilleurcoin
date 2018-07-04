@@ -1,0 +1,64 @@
+{% set routeName = app.request.attributes.get('_route') %}
+{% set routeParams = app.request.attributes.get('_route_params') %}
+{% set routePath = path(routeName, routeParams) %}
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}Welcome!{% endblock %}</title>
+        {% block stylesheets %}
+            <link rel="stylesheet" href="{{ asset('css/style.css?noCache='~random(9999)) }}">
+            <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css?noCache='~random(9999)) }}">
+        {% endblock %}
+    </head>
+
+    <body>
+        <div id="body" class="container-fluid">
+            <div class="row">
+                {% for message in app.flashes('error') %}
+                    <div class="flash-error">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+                {% for message in app.flashes('notice') %}
+                    <div class="flash-notice">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="row">
+                {% block menu %}
+                    {% include('components/_menu.html.twig') %}
+                {% endblock %}
+                <div id="header" class="col-12">
+                    {% block header %}<h3>Bienvenue</h3>{% endblock %}
+                </div>
+                <div id="body" class="col-12">
+                    {% block body %}{% endblock %}
+                </div>
+                <div id="footer" class="col-12">
+                    {% block footer %}{% endblock %}
+                </div>
+            </div>
+        </div>
+
+        {% block javascripts %}
+            <script src="{{ asset('js/jquery.min.js') }}"></script>
+            <script src="{{ asset('js/popper.min.js') }}"></script>
+            <script src="{{ asset('js/bootstrap.min.js') }}"></script>
+            <script src="{{ asset('js/common.js?noCache='~random(9999)) }}"></script>
+        {% endblock %}
+    </body>
+
+</html>
+{#
+
+//Search form:
+http://nicesnippets.com/snippet/bootstrap-4-advance-search-dropdown-design-demo
+
+//SignUp form:
+https://getbootstrap.com/docs/4.1/components/forms/#custom-styles
+
+
+#}

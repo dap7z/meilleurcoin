@@ -1,0 +1,21 @@
+
+
+/* gmaps */
+#map{
+    margin: 0;
+    padding: 0;
+    height:400px;
+    width:100%;
+    position: relative;
+}
+#map-msg{
+    height: 36px;
+    margin-bottom: 2px;
+    text-align: center;
+}
+#map-addrDestination {
+    width: 90%;
+}
+#map-calculBtn{
+    float: right;
+}

@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Detail de l'annonce - {{ parent() }}
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="{{ asset('css/ad/view.css?noCache='~random(9999)) }}" rel="stylesheet">
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        {% set address = element.zip ~" "~ element.city %}
+        addrDestination = "{{ address }}";
+        addrDestinationComplete = addrDestination;
+    </script>
+    <script src="{{ asset('js/gmaps.js?noCache='~random(9999)) }}"></script>
+    <script type="text/javascript" src="https://maps.google.com/maps/api/js?language=fr&key="></script>
+    <script src="{{ asset('js/ad/view.js?noCache='~random(9999)) }}"></script>
+{% endblock %}
+
+{% block header %}
+    <h3>Détail de l'annonce: {{ element.title }}</h3>
+{% endblock %}
+
+{% block body %}
+    <div id="content" class="row">
+        <div class="col-lg-8">
+            <span class="subtitle">Description:</span>
+            <div>
+                {{ element.description|capitalize }}
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <span class="subtitle">Localisation:</span>
+            <div>
+                {{ element.zip }} {{ element.city|capitalize }}
+            </div>
+            <div class="gmaps">
+                <div id="map-msg"></div>
+                <div id="map"></div>
+                <div class="translation" style="display:none;">
+                    <span id="map-msg-loading">{{ 'gmaps.msg.loading'|trans }}</span>
+                    <span id="map-msg-notfound">{{ 'gmaps.msg.notfound'|trans }}</span>
+                </div>
+                <div class="debug-infos" style="display:none;">
+                    <input id="map-addrDestination" value=""/>
+                    <button id="map-calculBtn" type="button">{{ 'gmaps.btn.go'|trans }}</button>
+                    <span style="display:inline-block;"> addrDestinationComplete:<br><textarea id="map-addrDestinationComplete"></textarea> </span>
+                    <span style="display:inline-block;"> apiResponse:<br><textarea id="map-apiResponse"></textarea> </span>
+                </div>
+
+            </div>
+        </div>
+    </div>
+{% endblock %}

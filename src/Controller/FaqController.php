@@ -19,7 +19,7 @@ class FaqController extends GenericController
      */
     public function index(){
         return $this->render('faq/index.html.twig', array(
-            'menu' => $this->buildMenu()
+
         ));
     }
 

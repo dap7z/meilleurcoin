@@ -19,7 +19,7 @@ class CguController extends GenericController
      */
     public function index(){
         return $this->render('cgu/index.html.twig', [
-            'menu' => $this->buildMenu()
+
         ]);
     }
 

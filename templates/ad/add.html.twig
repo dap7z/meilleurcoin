@@ -4,10 +4,39 @@
     Ajout d'une annonce - {{ parent() }}
 {% endblock %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="{{ asset('css/ad/view.css?noCache='~random(9999)) }}" rel="stylesheet">
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/ad/add.js?noCache='~random(9999)) }}"></script>
+{% endblock %}
+
 {% block header %}
     <h3>Saisie de votre annonce</h3>
 {% endblock %}
 
 {% block body %}
+
+    {{ form_start(form, {'attr': {'id': 'formAdd', 'novalidate': 'novalidate'}}) }}
+
+    {{ form_errors(form) }}
+
+    {{ form_row(form.title) }}
+    {{ form_row(form.description) }}
+
+    {# autocomplete #}
+    {#<select id="autocompleteCity" name="{{ form.city.vars['full_name'] }}" class="" style="min-width: 200px;">#}
+        {#<option></option>#}
+    {#</select>#}
+    {{ form_row(form.city, {'attr': {'class': 'autocomplete'}} ) }}
+
+
+    {{ form_row(form.price) }}
+
+    <button type="submit" class="btn btn-primary">Envoyer</button>
+    {{ form_end(form) }}
 
 {% endblock %}

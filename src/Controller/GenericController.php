@@ -8,33 +8,24 @@
  */
 namespace App\Controller;
 
+use App\Entity\Ad;
+use App\Entity\AdDataClass;
+use App\Form\AdFilterType;
+use App\Form\AdType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Form\FormFactoryInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 class GenericController extends Controller
 {
+    const NB_RESULT_PER_PAGE = 2;
 
+    protected function buildFormSearch(Request $request){
+        $formSearch = $this->createForm(AdFilterType::class);
+        $formSearch->handleRequest($request);
 
-    protected function buildMenu(){
-
-        $menu = new \ArrayObject();
-        $menu['main_index'] = 'Accueil';
-        $menu['ad_add'] = 'Déposer une annonce';
-        $menu['ad_index'] = 'Liste des annonces';
-
-//        //TODO: si non connecté:
-//        $menu['nom_route3'] = 'Inscription';
-//        $menu['nom_route4'] = 'Connexion';
-//
-//        //TODO: si connecté
-//        $menu['nom_route5'] = 'Mes annonces';
-//        $menu['nom_route6'] = 'Mes favoris';
-
-        $menu['faq'] = 'FAQ';
-        $menu['cgu'] = 'CGU';
-
-        return $menu;
+        return $formSearch;
     }
-
 
 }

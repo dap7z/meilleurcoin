@@ -1,0 +1,14 @@
+- desactiver service windows port 80
+- lancer wamp/winnmp
+- selectionner version php 7.2
+- modifier php.ini (en fonction du retour /check.php de symfony/requirements-checker) : 
+     date.timezone = "Europe/Paris"
+     memory_limit = 2048M
+     realpath_cache_size = 5M
+     short_open_tag = Off
+     post_max_size = 100M
+
+????
+a PHP accelerator should be installed
+Install and/or enable a PHP accelerator (highly recommended).
+?????

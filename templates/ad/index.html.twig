@@ -27,6 +27,17 @@
 
 {% block body %}
     <div id="content">
+
+        {# search panel #}
+        {% include '/components/_search.html.twig' %}
+
+        <div class="row">
+            {% for num in 1..pageCount %}
+                <input type="submit" name="pageCurrent"  value="{{ num }}" />
+            {% endfor %}
+        </div>
+
+
         {% for elem in elements %}
 
             <div class="card">
@@ -45,5 +56,7 @@
             </div>
 
         {% endfor %}
+
+
     </div>
 {% endblock %}

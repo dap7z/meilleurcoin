@@ -6,10 +6,13 @@
 
     <head>
         <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
+        <title>{% block title %}LeMeilleurCoin{% endblock %}</title>
         {% block stylesheets %}
-            <link rel="stylesheet" href="{{ asset('css/style.css?noCache='~random(9999)) }}">
-            <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css?noCache='~random(9999)) }}">
+            <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
+            <link rel="stylesheet" href="{{ asset('css/select2.min.css') }}">
+            <link rel="stylesheet" href="{{ asset('css/select2-bootstrap4.min.css') }}">
+            <link rel="stylesheet" href="{{ asset('fontawesome/css/all.css') }}">
+            <link rel="stylesheet" href="{{ asset('css/common.css?noCache='~random(9999)) }}">
         {% endblock %}
     </head>
 
@@ -29,6 +32,7 @@
             </div>
             <div class="row">
                 {% block menu %}
+                    {#{{ render(controller('App:Menu:menuTop')) }}#}
                     {% include('components/_menu.html.twig') %}
                 {% endblock %}
                 <div id="header" class="col-12">
@@ -47,6 +51,7 @@
             <script src="{{ asset('js/jquery.min.js') }}"></script>
             <script src="{{ asset('js/popper.min.js') }}"></script>
             <script src="{{ asset('js/bootstrap.min.js') }}"></script>
+            <script src="{{ asset('js/select2.min.js') }}"></script>
             <script src="{{ asset('js/common.js?noCache='~random(9999)) }}"></script>
         {% endblock %}
     </body>

@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Ad;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
@@ -19,20 +20,25 @@ class AdRepository extends ServiceEntityRepository
         parent::__construct($registry, Ad::class);
     }
 
-    /**
-     * @return Ad[] Returns an array of Ad objects
-     */
-    public function search($value)
+
+    public function search($value, $first_result = 0, $max_results = 20)
     {
-        return $this->createQueryBuilder('a')
-            ->andWhere('a.title LIKE :val')
-            ->orWhere('a.description LIKE :val')
-            ->setParameter('val', "%$value%")
-            ->orderBy('a.id', 'DESC')
-            //->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
+        $query = $this->createQueryBuilder('a');
+            if(! empty($value)){
+                $query->andWhere('a.title LIKE :val')
+                    ->orWhere('a.description LIKE :val')
+                    ->setParameter('val', "%$value%")
+                ;
+            }
+            $query->orderBy('a.id', 'DESC')
+            ->setFirstResult($first_result)
+            ->setMaxResults($max_results)
+            ;
+
+        //http://www.aubm.net/blog/la-pagination-avec-doctrine-la-bonne-methode/
+        $pagination = new Paginator($query);
+
+        return $pagination;
     }
 
 }

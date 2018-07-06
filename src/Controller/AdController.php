@@ -3,6 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\Ad;
+use App\Form\AdFilterType;
+use App\Form\AdType;
+use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -15,10 +18,24 @@ class AdController extends GenericController
     /**
      * @Route("/add", name="add")
      */
-    public function add()
+    public function add(EntityManagerInterface $em, Request $request)
     {
+        $ad = new Ad();
+        $form = $this->createForm(AdType::class, $ad);
+
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()){
+
+            $ad->setDateCreated(new Datetime());
+            $em->persist($ad);
+            $em->flush();
+
+            $this->addFlash('success', 'Votre annonce a été enregistrée');
+            $this->redirectToRoute('ad_index');
+        }
+
         return $this->render('ad/add.html.twig', [
-            'menu' => $this->buildMenu(),
+            'form' => $form->createView(),
         ]);
     }
 
@@ -27,15 +44,37 @@ class AdController extends GenericController
      */
     public function index(EntityManagerInterface $em, Request $request)
     {
-        $q = $request->get('q');
-//        dump("q:".$q);
-//        die();
+        $formSearch = $this->buildFormSearch($request);
+        $search = $formSearch->getData();
+        $pageCount = 0;
+        $pageCurrent = $search['pageCurrent'];
+        if($pageCurrent<1) $pageCurrent = 1;
 
-        $elements = $em->getRepository(Ad::class)->search($q);
+        $elements = null;
+        if ($formSearch->isSubmitted() && $formSearch->isValid()) {
+
+            $first_result = ($pageCurrent-1) * self::NB_RESULT_PER_PAGE;
+            $elements = $em->getRepository(Ad::class)->search($search['q'], $first_result);
+
+            $pageCount = ceil(count($elements) / self::NB_RESULT_PER_PAGE);
+
+//            //update form data:
+//            $search['pageCurrent'] = $pageCurrent;
+//            $search['pageCount'] = $pageCount;
+//            $formSearch->setData($search);
+
+            //test pagination
+            //dump($elements);
+            //die();
+        }
+
+
 
         return $this->render('ad/index.html.twig', [
-            'menu' => $this->buildMenu(),
-            'elements' => $elements
+            'formSearch' => $formSearch->createView(),
+            'elements' => $elements,
+            'pageCurrent' => $pageCurrent,
+            'pageCount' => $pageCount,
         ]);
     }
 
@@ -51,4 +90,69 @@ class AdController extends GenericController
             'menu' => $this->buildMenu(),
         ]);
     }
+
+
+
+    /**
+     * @Route("/my", name="myads_index")
+     */
+    public function myAdsIndex(EntityManagerInterface $em, Request $request)
+    {
+        $formSearch = $this->buildFormSearch($request);
+        $search = $formSearch->getData();
+        $pageCount = 0;
+        $pageCurrent = $search['pageCurrent'];
+        if($pageCurrent<1) $pageCurrent = 1;
+
+        $elements = null;
+        if ($formSearch->isSubmitted() && $formSearch->isValid()) {
+
+            $first_result = ($pageCurrent-1) * self::NB_RESULT_PER_PAGE;
+            $elements = $em->getRepository(Ad::class)->search($search['q'], $first_result);
+
+            $pageCount = ceil(count($elements) / self::NB_RESULT_PER_PAGE);
+        }
+
+
+
+        return $this->render('ad/index.html.twig', [
+            'formSearch' => $formSearch->createView(),
+            'elements' => $elements,
+            'pageCurrent' => $pageCurrent,
+            'pageCount' => $pageCount,
+        ]);
+    }
+
+
+    /**
+     * @Route("/favorites", name="favoriteads_index")
+     */
+    public function FavoriteAdsIndex(EntityManagerInterface $em, Request $request)
+    {
+        $formSearch = $this->buildFormSearch($request);
+        $search = $formSearch->getData();
+        $pageCount = 0;
+        $pageCurrent = $search['pageCurrent'];
+        if($pageCurrent<1) $pageCurrent = 1;
+
+        $elements = null;
+        if ($formSearch->isSubmitted() && $formSearch->isValid()) {
+
+            $first_result = ($pageCurrent-1) * self::NB_RESULT_PER_PAGE;
+            $elements = $em->getRepository(Ad::class)->search($search['q'], $first_result);
+
+            $pageCount = ceil(count($elements) / self::NB_RESULT_PER_PAGE);
+        }
+
+
+
+        return $this->render('ad/index.html.twig', [
+            'formSearch' => $formSearch->createView(),
+            'elements' => $elements,
+            'pageCurrent' => $pageCurrent,
+            'pageCount' => $pageCount,
+        ]);
+    }
+
+
 }

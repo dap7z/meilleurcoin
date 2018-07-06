@@ -8,7 +8,9 @@
  */
 namespace App\Controller;
 
+use App\Form\AdFilterType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 /** @Route("/", name="main_") */
@@ -20,10 +22,9 @@ class MainController extends GenericController
      *
      * @Route("/", name="index")
      */
-    public function index(){
-
+    public function index(Request $request){
         return $this->render('main/index.html.twig', [
-            'menu' => $this->buildMenu()
+            'formSearch' => $this->buildFormSearch($request)->createView()
         ]);
     }
 

@@ -7,7 +7,7 @@
 {% block stylesheets %}
     {{ parent() }}
     <link href="{{ asset('jsmaps/jsmaps.css') }}" rel="stylesheet" />
-    <link href="{{ asset('css/index.css?noCache='~random(9999)) }}" rel="stylesheet">
+    <link href="{{ asset('css/main/index.css?noCache='~random(9999)) }}" rel="stylesheet">
 {% endblock %}
 
 {% block javascripts %}
@@ -27,8 +27,9 @@
 {% block body %}
     contenu page accueil
 
-    {# form recherche #}
 
+    {# search panel #}
+    {% include('components/_search.html.twig') %}
     {# carte - selection auto #}
     {# proposition d'annonces #}
 

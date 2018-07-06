@@ -32,6 +32,24 @@ class AppFixtures extends Fixture
         $ad2->setDateCreated(new DateTime());
         $manager->persist($ad2);
 
+        $ad3 = new Ad();
+        $ad3->setTitle("titre3");
+        $ad3->setDescription("desciption3");
+        $ad3->setCity("nantes");
+        $ad3->setZip("44000");
+        $ad3->setPrice(300.001);
+        $ad3->setDateCreated(new DateTime());
+        $manager->persist($ad3);
+
+        $ad4 = new Ad();
+        $ad4->setTitle("titre4");
+        $ad4->setDescription("desciption4toto");
+        $ad4->setCity("nantes");
+        $ad4->setZip("44000");
+        $ad4->setPrice(400.002);
+        $ad4->setDateCreated(new DateTime());
+        $manager->persist($ad4);
+
         $manager->flush();
 
 

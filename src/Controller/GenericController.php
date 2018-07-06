@@ -12,6 +12,7 @@ use App\Entity\Ad;
 use App\Entity\AdDataClass;
 use App\Form\AdFilterType;
 use App\Form\AdType;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -26,6 +27,18 @@ class GenericController extends Controller
         $formSearch->handleRequest($request);
 
         return $formSearch;
+    }
+
+    protected function paginate($query, $pageSize = self::NB_RESULT_PER_PAGE, $currentPage = 1)
+    {
+        $paginator = new Paginator($query);
+
+        $paginator
+            ->getQuery()
+            ->setFirstResult($pageSize * ($currentPage - 1)) // set the offset
+            ->setMaxResults($pageSize); // set the limit
+
+        return $paginator;
     }
 
 }

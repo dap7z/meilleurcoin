@@ -54,7 +54,8 @@ class AdController extends GenericController
         if ($formSearch->isSubmitted() && $formSearch->isValid()) {
 
             $first_result = ($pageCurrent-1) * self::NB_RESULT_PER_PAGE;
-            $elements = $em->getRepository(Ad::class)->search($search['q'], $first_result);
+            $query = $em->getRepository(Ad::class)->search($search['q'], $first_result);
+            $elements = $this->paginate($query);
 
             $pageCount = ceil(count($elements) / self::NB_RESULT_PER_PAGE);
 
@@ -69,12 +70,47 @@ class AdController extends GenericController
         }
 
 
+        /*
+        'pageCurrent' => $pageCurrent,
+        'pageCount' => $pageCount,
+        */
+
+        $pagination = array(
+            'page' => $page,
+            'route' => 'article_list',
+            'pages_count' => ceil($articles_count / $maxArticles),
+            'route_params' => array()
+        );
+..
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         return $this->render('ad/index.html.twig', [
             'formSearch' => $formSearch->createView(),
             'elements' => $elements,
-            'pageCurrent' => $pageCurrent,
-            'pageCount' => $pageCount,
+            'pagination' => $pagination,
         ]);
     }
 

@@ -24,21 +24,15 @@ class AdRepository extends ServiceEntityRepository
     public function search($value, $first_result = 0, $max_results = 20)
     {
         $query = $this->createQueryBuilder('a');
-            if(! empty($value)){
-                $query->andWhere('a.title LIKE :val')
-                    ->orWhere('a.description LIKE :val')
-                    ->setParameter('val', "%$value%")
-                ;
-            }
-            $query->orderBy('a.id', 'DESC')
-            ->setFirstResult($first_result)
-            ->setMaxResults($max_results)
+        if(! empty($value)){
+            $query->andWhere('a.title LIKE :val')
+                ->orWhere('a.description LIKE :val')
+                ->setParameter('val', "%$value%")
             ;
+        }
+        //$query->orderBy('a.id', 'DESC');
 
-        //http://www.aubm.net/blog/la-pagination-avec-doctrine-la-bonne-methode/
-        $pagination = new Paginator($query);
-
-        return $pagination;
+        return $query;
     }
 
 }

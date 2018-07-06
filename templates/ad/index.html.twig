@@ -33,7 +33,8 @@
 
         <div class="row">
             {% for num in 1..pageCount %}
-                <input type="submit" name="pageCurrent"  value="{{ num }}" />
+                {#<input type="submit" name="pageCurrent"  value="{{ num }}" />#}
+                <a href="{{ path(pagination.route, pagination.route_params|merge({'page': num})) }}">{{ num }}</a>
             {% endfor %}
         </div>
 

@@ -78,33 +78,9 @@ class AdController extends GenericController
         $pagination = array(
             'page' => $page,
             'route' => 'article_list',
-            'pages_count' => ceil($articles_count / $maxArticles),
+            'pages_count' => $pageCount,
             'route_params' => array()
         );
-..
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
         return $this->render('ad/index.html.twig', [
